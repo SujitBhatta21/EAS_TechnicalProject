@@ -17,6 +17,7 @@ Mental Model for project.
 
 ## Project Requirements Research (Why that stack?)
 
+### DAY 1
 **TASK DESCRIPTION:**
 >'The format and technology are entirely up to you. It could be a command-line application ...'<br>
 
@@ -46,6 +47,22 @@ CHALLANGE FOR ME ((Just 2 right now)):
 - > I know what TLS cert is but don't know what's under the hood and how it works.
 - > Haven't worked on a CLI project.
 - > Figuring out pytest and how it works.
+
+
+
+### DAY2
+Looking into how TLS works and verifying a TLS cert.
+
+1. Establishing connection with URL.
+2. Performing TLS handshake using ssl library python3 (why: )
+3. Checking if certificate is expired or not.
+4. Return something...
+
+**ANSWER**:
+    Reading python docs for ssl library gave me sample template to connect to the hostname URL to print TLS version(). 
+    Further reseatch using Ctrl + F for certificates helped me find getpeercert() function which returned a JSON with 'notAfter' (i.e. expiry date) which is exactly what I needed.
+    Example print with hostname='example.com' for this function.: 
+> {'subject': ((('commonName', 'example.com'),),), 'issuer': ((('countryName', 'US'),), (('organizationName', 'SSL Corporation'),), (('commonName', 'Cloudflare TLS Issuing ECC CA 3'),)), 'version': 3, 'serialNumber': '01EEE6AABB521D5E14FC315FD9985690', 'notBefore': 'Sep 26 22:49:11 2026 GMT', '**notAfter**': 'Dec 25 22:56:35 2026 GMT', 'subjectAltName': (('DNS', 'example.com'), ('DNS', '*.example.com')), 'OCSP': ('http://o.cf-i.ssl.com',), 'caIssuers': ('http://i.cf-i.ssl.com/Cloudflare-TLS-I-E3.cer',), 'crlDistributionPoints': ('http://c.cf-i.ssl.com/ae801ed1c55bb579d79208b0d772acfb8cc3a208.crl',)}
 
 
 ## FINAL REMARKS
