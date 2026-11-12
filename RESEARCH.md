@@ -90,6 +90,18 @@ During working out I wanted to make sure that datetime I collect using datetime.
 TypeError: can't compare offset-naive and offset-aware datetimes
 I learned something new. Didn't realise I had to add timezone specific information to both datetime type if I want to use expression on it.
 
+I initially tried to use `datetime.now(timezone.utc)` to calculate the timestamp for the hostname TCP connection but later realised that timezone might not be viable option considering it changes drastically for my local location in London 2 times a year. Once increases by 1 hr and other decreases by 1. It is the worst case scenario. 
+
+<br>
+During research I found `time.monotonic()` function: 
+
+It's description: 
+> Return the value (in fractional seconds) of a monotonic clock, i.e. a clock that cannot go backwards. The clock is not affected by system clock updates.
+
+The not affected by system clock is exactly what I need.
+
+
+During my code session trying to build `print_report()` method I learned new thing. I can use `:>number` for amount of align space I want inside a format string print. **Remember** it's :> then left align :< then right align. Example `>>>> f"{result.status:<7}`"
 
 
 ## FINAL REMARKS
