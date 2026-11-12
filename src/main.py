@@ -1,45 +1,33 @@
-import ssl
-import socket
-from datetime import datetime
-from config import load_config
+import logging
+from checker.config import load_config
+from checker.tlsChecker import tls_checker
 
 
 def main():
     # TODO: Parse the yaml file to list all sites.
-    filepath = 'src/testing.yaml'
+    filepath = 'testing.yaml'
     yaml_parsed = load_config(filepath)
 
-    sites = [site['hostname'] for site in yaml_parsed['sites']]
+    hostnames = [site['hostname'] for site in yaml_parsed['sites']]
     warn_days = yaml_parsed['warn_days']
     timeout_sec = yaml_parsed['timeout_sec']
+    print(hostnames)
 
 
+    # TODO: Check all the site in sites using checker
+    results = []
 
-    # TODO: 
-    try:
-        hostname = 'www.example.com'
-        port = 443
-        context = ssl.create_default_context()
+    for hostname in hostnames:
+        result = tls_checker(
+            hostname=hostname, 
+            port=443, 
+            timeout_sec=int(timeout_sec), 
+        )
+        results.append(result)
 
-        with socket.create_connection((hostname, port)) as sock:
-            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-                print(ssock.version())
-                cert_data = ssock.getpeercert()
-                expiry_data = cert_data['notAfter']
 
-                # Converting notAfter to datetime format.
-                timestamp = ssl.cert_time_to_seconds(expiry_data)
-                expiry_datetime = datetime.fromtimestamp(timestamp=timestamp)
-
-                curr_datetime = datetime.now() # Make sure it's gmt format.
-
-                # Comparing both datetime
-                if expiry_datetime > curr_datetime:
-                    print('PASSED: The certificate is not expired.')
-                else:
-                    print('FAILED')
-    except:
-        return ssl.SSLCertVerificationError
+    # TODO: Logging results ready for report.
+    
 
 
 if __name__=='__main__':
