@@ -1,50 +1,45 @@
 import ssl
 import socket
-from enum import Enum
 from datetime import datetime
+from config import load_config
 
-
-class MONTHS(Enum):
-    Jan = 1 
-    Feb = 2
-    Mar = 3
-    Apr = 4
-    May = 5
-    Jun = 6
-    Jul = 7
-    Aug = 8
-    Sept = 9
-    Oct = 10
-    Nov = 11
-    Dec = 12
 
 def main():
-    hostname = 'www.example.com'
-    port = 443
-    context = ssl.create_default_context()
+    # TODO: Parse the yaml file to list all sites.
+    filepath = 'src/testing.yaml'
+    yaml_parsed = load_config(filepath)
 
-    with socket.create_connection((hostname, port)) as sock:
-        with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-            print(ssock.version())
-            cert_data = ssock.getpeercert()
-            expiry_data = cert_data['notAfter']
-            print(cert_data)
+    sites = [site['hostname'] for site in yaml_parsed['sites']]
+    warn_days = yaml_parsed['warn_days']
+    timeout_sec = yaml_parsed['timeout_sec']
 
-            curr_datetime = datetime.now() # Make sure it's gmt format.
-            print(curr_datetime)
-        
-            # Changing 'notAfter' time format to datetime format.
-            month, day, exp_time, year, _ = expiry_data.split(' ')
-            exp_date_str = f'{year}-{MONTHS[month].value}-{day}'
-            print(exp_date_str)
-            exp_datetime = datetime.fromisoformat(exp_date_str + ' ' + exp_time)
-            print(exp_datetime)
 
-            # Comparing both datetime
-            if exp_datetime > curr_datetime:
-                print('PASSED: The certificate is not expired.')
-            else:
-                print('FAILED')
+
+    # TODO: 
+    try:
+        hostname = 'www.example.com'
+        port = 443
+        context = ssl.create_default_context()
+
+        with socket.create_connection((hostname, port)) as sock:
+            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+                print(ssock.version())
+                cert_data = ssock.getpeercert()
+                expiry_data = cert_data['notAfter']
+
+                # Converting notAfter to datetime format.
+                timestamp = ssl.cert_time_to_seconds(expiry_data)
+                expiry_datetime = datetime.fromtimestamp(timestamp=timestamp)
+
+                curr_datetime = datetime.now() # Make sure it's gmt format.
+
+                # Comparing both datetime
+                if expiry_datetime > curr_datetime:
+                    print('PASSED: The certificate is not expired.')
+                else:
+                    print('FAILED')
+    except:
+        return ssl.SSLCertVerificationError
 
 
 if __name__=='__main__':
