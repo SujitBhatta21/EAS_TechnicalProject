@@ -1,0 +1,19 @@
+[Project Assessment]
+name = "eas-technicalproject"
+version = "0.1.0"
+description = "Mine of dependencies required for the project."
+readme = "README.md"
+authors = [
+    { name = "Sujit Bhatta", email = "102691694+SujitBhatta21@users.noreply.github.com" }
+]
+requires-python = ">=3.15.2"
+dependencies = [
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+eas-technicalproject = "eas_technicalproject:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
