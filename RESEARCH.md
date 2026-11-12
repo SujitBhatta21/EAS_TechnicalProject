@@ -64,5 +64,32 @@ Looking into how TLS works and verifying a TLS cert.
     Example print with hostname='example.com' for this function.: 
 > {'subject': ((('commonName', 'example.com'),),), 'issuer': ((('countryName', 'US'),), (('organizationName', 'SSL Corporation'),), (('commonName', 'Cloudflare TLS Issuing ECC CA 3'),)), 'version': 3, 'serialNumber': '01EEE6AABB521D5E14FC315FD9985690', 'notBefore': 'Sep 26 22:49:11 2026 GMT', '**notAfter**': 'Dec 25 22:56:35 2026 GMT', 'subjectAltName': (('DNS', 'example.com'), ('DNS', '*.example.com')), 'OCSP': ('http://o.cf-i.ssl.com',), 'caIssuers': ('http://i.cf-i.ssl.com/Cloudflare-TLS-I-E3.cer',), 'crlDistributionPoints': ('http://c.cf-i.ssl.com/ae801ed1c55bb579d79208b0d772acfb8cc3a208.crl',)}
 
+### DAY3
+It was bhai tika a festival in Tihar(Diwali) so, whole day well spent with family and friends.
+
+### DAY4
+Previous code simply was a draft for me to get familar with ssl library.
+Today research involves:
+- Me optimising my draft code inside main() function.
+> `ssl.cert_time_to_seconds()` made it more easier for me to convert `notAfter` in tls cert json in datetime format for easier calculations.
+- Structuring my files for better readability 
+> Breaking down main file into config which parses and returns yaml file contents.
+- Making a sample test sites yaml file with a code for parsing the file.
+> 
+- Adding exception handling.
+> Using try and except. Including Timeout error if stuck for connection for 5 sec in single link. 
+- In the end performing tests.
+> Used badssl repository error links like expired.badssl.com,
+- (optional) research on CLI in Python and taking in args.
+
+During today research during optimising main() function's TLS certification check I wanted to add functionality to avoid unsecured or depreciated ssl/tls versions i.e. TLSv1.0/TLSv1.1/SSLv3. So, 
+
+During working out I wanted to make sure that datetime I collect using datetime.now() has timezone specific utc. Then I got this error: 
+    if expiry_datetime > curr_datetime:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+I learned something new. Didn't realise I had to add timezone specific information to both datetime type if I want to use expression on it.
+
+
 
 ## FINAL REMARKS
