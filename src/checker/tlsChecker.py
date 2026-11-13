@@ -65,6 +65,9 @@ def tls_checker(hostname: str, port: int, warn_days: int=30, timeout_sec: int=5)
     except (TimeoutError, socket.timeout):
         result.status = "FAIL"
         result.message = "Connection refused"
+    except ConnectionResetError as e:
+        result.status = "FAIL"
+        result.message = e
     except ssl.SSLCertVerificationError as e:
         result.status = "FAIL"
         result.message = e
