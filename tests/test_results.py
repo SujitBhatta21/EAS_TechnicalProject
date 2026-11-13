@@ -40,9 +40,9 @@ def test_terminal_formatting_and_summary(capsys):
 
     assert capsys.readouterr().out == (
         f"{'STATUS':<7}{'HOSTNAME':<24}{'CODE':<7}{'LATENCY':<9}MESSAGE\n"
-        f"{'PASS':<7}{'valid.example':<24}{'200':<7}{'13ms':<9}valid\n\n"
-        f"{'WARN':<7}{'soon.example':<24}{'200':<7}{'0ms':<9}expires soon\n\n"
-        f"{'FAIL':<7}{'failed.example':<24}{'---':<7}{'---':<9}DNS lookup failed\n\n"
-        f"{'PASS':<7}{'other.example':<24}{'200':<7}{'8ms':<9}valid\n\n"
+        f"{'PASS':<7}{'valid.example':<24}{'200':<7}{'13ms':<9}valid\n"
+        f"{'WARN':<7}{'soon.example':<24}{'200':<7}{'0ms':<9}expires soon\n"
+        f"{'FAIL':<7}{'failed.example':<24}{'---':<7}{'---':<9}DNS lookup failed\n"
+        f"{'PASS':<7}{'other.example':<24}{'200':<7}{'8ms':<9}valid\n"
         f"PASS: {2:<5}WARN: {1:<5}FAIL: {1:<5}(TOTAL: 4)\n"
     )
