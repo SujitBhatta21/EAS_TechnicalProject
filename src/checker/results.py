@@ -38,12 +38,12 @@ def print_results(results: [HostCheckResult]) -> None:
             f"{result.hostname:<24}"
             f"{str(status_code):<7}"
             f"{latency:<9}"
-            f"{result.message}\n"
+            f"{result.message}"
         )
 
     # Printing final total of STATUS of results i.e. WARN, PASS, FAIL.
     print(
-        f"PASS: {counter['PASS']:<5}"
+        f"\nPASS: {counter['PASS']:<5}"
         f"WARN: {counter['WARN']:<5}"
         f"FAIL: {counter['FAIL']:<5}"
         f"(TOTAL: {len(results)})"

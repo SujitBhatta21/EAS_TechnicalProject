@@ -28,6 +28,7 @@ def tls_environment(monkeypatch):
     connection = MagicMock()
     context = MagicMock()
     tls_socket = context.wrap_socket.return_value.__enter__.return_value
+    # tls_socket is pretend ssock the application uses.
     tls_socket.version.return_value = "TLSv1.3"
     monkeypatch.setattr(tlsChecker.socket, "create_connection", connection)
     monkeypatch.setattr(tlsChecker.ssl, "create_default_context", Mock(return_value=context))
