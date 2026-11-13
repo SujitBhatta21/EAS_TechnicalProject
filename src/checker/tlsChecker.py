@@ -64,7 +64,10 @@ def tls_checker(hostname: str, port: int, warn_days: int=30, timeout_sec: int=5)
         result.message = "DNS lookup failed"
     except (TimeoutError, socket.timeout):
         result.status = "FAIL"
-        result.message = "Connection refused"
+        result.message = "Connection timed out"
+    except ConnectionRefusedError as e:
+        result.status = "FAIL"
+        result.message = e
     except ConnectionResetError as e:
         result.status = "FAIL"
         result.message = e
