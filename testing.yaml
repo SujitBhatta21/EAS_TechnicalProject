@@ -1,0 +1,11 @@
+sites:
+  - hostname: expired.badssl.com
+  - hostname: google.com
+  - hostname: example.com
+  - hostname: self-signed.badssl.com
+  - hostname: mixed.badssl.com
+  - hostname: rc4.badssl.com
+  - hostname: hsts.badssl.com
+
+warn_days   : 30
+timeout_sec : 5
