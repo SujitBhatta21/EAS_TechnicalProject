@@ -1,16 +1,24 @@
-import logging
+import sys
 from checker.config import load_config
 from checker.tlsChecker import tls_checker
 from checker.results import print_results
 
+
 def main():
+    # TODO: Parse the arguments given in input.
+    if len(sys.argv) != 2:
+        print("Usage: uv run src/main.py <filepath> or [python] instead of [uv run]")
+        sys.exit(1)
+
+    filepath = sys.argv[1]
+
     # TODO: Parse the yaml file to list all sites.
-    filepath = 'testing.yaml'
     yaml_parsed = load_config(filepath)
 
     hostnames = [site['hostname'] for site in yaml_parsed['sites']]
     warn_days = yaml_parsed['warn_days']
     timeout_sec = yaml_parsed['timeout_sec']
+    print(hostnames)
 
 
     # TODO: Check all the site in sites using checker
